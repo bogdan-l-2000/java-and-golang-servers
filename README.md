@@ -1,6 +1,7 @@
 # java-and-golang-servers
 
-Basic functionality of Java server completed.
+Socket programming in Java.
+Basic functionality of Java HTTP server completed.
 
 Next steps: 
 - Generalize adding routes to multiple static files, 
