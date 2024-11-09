@@ -42,7 +42,7 @@ public class HttpResponse {
         }
 
         public ResponseBuilder addHeader(final String name, final String value) {
-            responseHeaders.put(name, (ArrayList<String>) List.of(value));
+            responseHeaders.put(name, new ArrayList<>(List.of(value)));
             return this;
         }
 

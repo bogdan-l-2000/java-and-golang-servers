@@ -31,5 +31,6 @@ public class HttpHandler {
 
     private void handleInvalidRequest(final BufferedWriter bufferedWriter) {
         HttpResponse notFoundResponse = new HttpResponse.ResponseBuilder().setStatusCode(400).setContent("Bad Request...").build();
+        ResponseWriter.writeResponse(bufferedWriter, notFoundResponse);
     }
 }

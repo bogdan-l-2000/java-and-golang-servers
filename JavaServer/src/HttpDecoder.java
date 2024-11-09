@@ -13,12 +13,14 @@ public class HttpDecoder {
     private static Optional<ArrayList<String>> readMessage(final InputStream inputStream) {
         try {
             if (!(inputStream.available() > 0)) {
+                System.out.println("Input stream is unavailable");
                 return Optional.empty();
             }
 
             final char[] inBuffer = new char[inputStream.available()];
             final InputStreamReader inReader = new InputStreamReader(inputStream);
             final int read = inReader.read(inBuffer);
+            System.out.println(read);
 
             ArrayList<String> message = new ArrayList<>();
 
@@ -28,9 +30,11 @@ public class HttpDecoder {
                     message.add(line);
                 }
             }
+            System.out.println(message);
 
             return Optional.of(message);
         } catch (Exception ignored) {
+            System.out.println("Error with reading message");
             return Optional.empty();
         }
     }
