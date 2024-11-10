@@ -36,7 +36,7 @@ public class BasicServer {
         }
     }
 
-    private void handleConnection(Socket clientConnection) {
+    private void handleConnection(Socket clientConnection) throws IOException {
         Runnable httpRequestRunner = () -> {
             try {
                 handler.handleConnection(clientConnection.getInputStream(), clientConnection.getOutputStream());

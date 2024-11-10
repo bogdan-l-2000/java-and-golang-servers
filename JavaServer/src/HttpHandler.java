@@ -10,23 +10,33 @@ public class HttpHandler {
         this.routes = routes;
     }
 
-    public void handleConnection(final InputStream inputStream, final OutputStream outputStream) throws IOException {
+    public void handleConnection(final InputStream inputStream, final OutputStream outputStream) {
         final BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-        Optional<HttpRequest> request = HttpDecoder.decode(inputStream);
-        request.ifPresentOrElse((r) -> handleRequest(r, bufferedWriter), () -> handleInvalidRequest(bufferedWriter));
-        bufferedWriter.close();
-        inputStream.close();
+        try {
+            Optional<HttpRequest> request = HttpDecoder.decode(inputStream);
+            request.ifPresentOrElse((r) -> handleRequest(r, bufferedWriter), () -> handleInvalidRequest(bufferedWriter));
+            bufferedWriter.close();
+            inputStream.close();
+        } catch (IOException ignored) {
+
+        }
+
     }
 
     private void handleRequest(final HttpRequest request, final BufferedWriter bufferedWriter) {
         final String routeKey = request.getHttpMethod().name().concat(request.getUri().getRawPath());
 
-        if (routes.containsKey(routeKey)) {
-            ResponseWriter.writeResponse(bufferedWriter, routes.get(routeKey).run(request));
-        } else {
-            ResponseWriter.writeResponse(bufferedWriter, new HttpResponse.ResponseBuilder().setStatusCode(404).setContent("Route Not Found...").build());
+        try {
+            if (routes.containsKey(routeKey)) {
+                ResponseWriter.writeResponse(bufferedWriter, routes.get(routeKey).run(request));
+            } else {
+                ResponseWriter.writeResponse(bufferedWriter, new HttpResponse.ResponseBuilder().setStatusCode(404).setContent("Route Not Found...").build());
+            }
+        } catch (IOException ignored) {
+
         }
+
     }
 
     private void handleInvalidRequest(final BufferedWriter bufferedWriter) {
