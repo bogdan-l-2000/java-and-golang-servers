@@ -3,8 +3,10 @@
 Socket programming in Java.
 Basic functionality of Java HTTP server completed.
 
+Completed:
+- Generalize adding routes to static HTML files
+
 Next steps: 
-- Generalize adding routes to multiple static files, 
 - persistent vs non-persistent connections, 
 - more advanced request and response options
 
